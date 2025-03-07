@@ -1,0 +1,57 @@
+/* General code block styling */
+pre[class*="language-"] {
+    font-size: 14px;
+    background-color: #f5f5f5;
+    padding: 1em;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
+/* Token styling (adjust as needed) */
+pre[class*="language-"] code {
+  color: #333;
+}
+
+.token.comment {
+  color: #999;
+}
+
+.token.punctuation {
+  color: #333;
+}
+
+.token.keyword {
+  color: #007acc;
+}
+
+.token.operator {
+  color: #333;
+}
+
+.token.number {
+  color: #007acc;
+}
+
+.token.string {
+  color: #009688;
+}
+
+.token.function {
+  color: #007acc;
+}
+
+.token.class-name {
+  color: #007acc;
+}
+
+.token.tag {
+  color: #007acc;
+}
+
+.token.attr-name {
+  color: #007acc;
+}
+
+.token.attr-value {
+  color: #009688;
+}

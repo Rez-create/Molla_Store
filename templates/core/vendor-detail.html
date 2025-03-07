@@ -1,0 +1,166 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<main class="main">
+    <div>
+        <div class="page-header text-darkwhite" style="border-radius: 25px; margin: 0 auto; width: 95%; height: 250px; background-image: url({% static 'assets/images/backgrounds/bg-2.jpg' %})" >
+            <div class="row">
+                <div class="vendor-logo mr-4">
+                    <img src="{{vendor.image.url}}" style="border-radius: 15px; margin-left: 15px; width: 100px; height: 70px;" alt="" />
+                </div>
+                <div>
+                    <h3 class="page-title text-darkwhite">{{vendor.title}}</h3>
+                    <span class="">Since {{vendor.date|date:"Y"}}</span>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="vendor-des mr-2">
+                        <p class="font-sm text-darkwhite">{{vendor.description}}</p>
+                    </div>
+                </div>
+                <div class="col-10">
+                    <div class="vendor-info mb-15">
+                        <ul>
+                            <li><strong>Address: </strong><br><span>{{vendor.address}}</span></li>
+                            <li><strong>Call Us: </strong><br><span>{{vendor.contact}}</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div><!-- End .page-header -->
+    </div>
+    <nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                <li class="breadcrumb-item"><a href="#">Vendors List</a></li>
+            </ol>
+        </div><!-- End .container -->
+    </nav><!-- End .breadcrumb-nav -->
+
+    <div class="page-content">
+        <div class="container">
+            <div class="toolbox">
+
+                <div class="toolbox-center">
+                    <div class="toolbox-info">
+                        <p>Showing <strong class="text-brand">{{products.count}}</strong> Product{{products.count|pluralize:"s"}}</p>
+                    </div><!-- End .toolbox-info -->
+                </div><!-- End .toolbox-center -->
+
+                <div class="toolbox-right">
+                    <div class="toolbox-sort">
+                        <label for="sortby">Sort by:</label>
+                        <div class="select-custom">
+                            <select name="sortby" id="sortby" class="form-control">
+                                <option value="popularity" selected="selected">Most Popular</option>
+                                <option value="rating">Most Rated</option>
+                                <option value="date">Featured</option>
+                            </select>
+                        </div>
+                    </div><!-- End .toolbox-sort -->
+                </div><!-- End .toolbox-right -->
+            </div><!-- End .toolbox -->
+
+            <div class="products">
+                <div class="row">
+                    {% for p in products %}
+                    <div class="product product-list">
+                        <div class="row">
+                            <div class="col-6 col-lg-3">
+                                <figure class="product-media">
+                                    <span class="product-label label-new">-{{ p.get_percentage|floatformat:0 }}%</span>
+                                    <a href="{% url 'core:product-detail' p.pid %}">
+                                        <img src="{{ p.image.url }}" alt="Product image" class="product-image">
+                                        <img src="{{ p.image2.url }}" alt="Product image" class="product-image-hover">
+                                    </a>
+                                </figure><!-- End .product-media -->
+                            </div><!-- End .col-sm-6 col-lg-3 -->
+
+                            <div class="col-6 col-lg-3 order-lg-last">
+                                <div class="product-list-action">
+                                    <div class="product-price">
+                                        <span class="new-price">Now ${{ p.price }}</span>
+                                        <span class="old-price">Was ${{ p.old_price }}</span>
+                                    </div><!-- End .product-price -->
+                                    <div class="ratings-container">
+                                        <div class="ratings">
+                                            <div class="ratings-val" style="width: 20%;"></div><!-- End .ratings-val -->
+                                        </div><!-- End .ratings -->
+                                        <span class="ratings-text">( 2 Reviews )</span>
+                                    </div><!-- End .rating-container -->
+
+                                    <div class="product-action">
+                                        <a href="popup/quickView.html" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a>
+                                        <a href="#" class="btn-product btn-compare" title="Compare"><span>compare</span></a>
+                                    </div><!-- End .product-action -->
+
+                                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                </div><!-- End .product-list-action -->
+                            </div><!-- End .col-sm-6 col-lg-3 -->
+
+                            <div class="col-lg-6">
+                                <div class="product-body product-action-inner">
+                                    <a href="#" class="btn-product btn-wishlist" title="Add to wishlist"><span>add to wishlist</span></a>
+                                    <div class="product-cat">
+                                        <a href="#">{{ p.category.title }}</a>
+                                    </div><!-- End .product-cat -->
+                                    <h3 class="product-title"><a href="{% url 'core:product-detail' p.pid %}">{{ p.title|truncatechars:25 }}</a></h3><!-- End .product-title -->
+
+                                    <div class="product-content">
+                                        <p>{{p.description}}</p>
+                                    </div><!-- End .product-content -->
+
+                                    {% comment %} <div class="product-nav product-nav-thumbs">
+                                        <a href="#" class="active">
+                                            <img src="assets/images/products/product-4-thumb.jpg" alt="product desc">
+                                        </a>
+                                        <a href="#">
+                                            <img src="assets/images/products/product-4-2-thumb.jpg" alt="product desc">
+                                        </a>
+
+                                        <a href="#">
+                                            <img src="assets/images/products/product-4-3-thumb.jpg" alt="product desc">
+                                        </a>
+                                    </div><!-- End .product-nav --> {% endcomment %}
+                                </div><!-- End .product-body -->
+                            </div><!-- End .col-lg-6 -->
+                        </div><!-- End .row -->
+                    </div><!-- End .product -->
+                    {% endfor %}
+                    <nav aria-label="Page navigation">
+							    <ul class="pagination">
+							        <li class="page-item disabled">
+							            <a class="page-link page-link-prev" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
+							                <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+							            </a>
+							        </li>
+							        <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+							        <li class="page-item"><a class="page-link" href="#">2</a></li>
+							        <li class="page-item"><a class="page-link" href="#">3</a></li>
+							        <li class="page-item-total">of 6</li>
+							        <li class="page-item">
+							            <a class="page-link page-link-next" href="#" aria-label="Next">
+							                Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
+							            </a>
+							        </li>
+							    </ul>
+							</nav>
+                		</div><!-- End .col-lg-9 -->
+                	</div><!-- End .row -->
+                </div><!-- End .row -->
+        </div><!-- End .container -->
+    </div><!-- End .page-content -->
+</main><!-- End .main -->
+
+
+{% endblock content %}
+
+
+

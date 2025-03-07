@@ -1,0 +1,433 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+{% block content %}
+{% comment %} <link rel="stylesheet" href="//cdn.js.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="//cdn.js.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script> {% endcomment %}
+<script src="{% static 'assets/js/prism.js' %}"></script>
+<link rel="stylesheet" href="{% static 'assets/css/prism.css' %}">
+
+
+<main class="main">
+    <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+        <div class="container d-flex align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Products</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Centered</li>
+            </ol>
+
+            <nav class="product-pager ml-auto" aria-label="Product">
+                <a class="product-pager-link product-pager-prev" href="#" aria-label="Previous" tabindex="-1">
+                    <i class="icon-angle-left"></i>
+                    <span>Prev</span>
+                </a>
+
+                <a class="product-pager-link product-pager-next" href="#" aria-label="Next" tabindex="-1">
+                    <span>Next</span>
+                    <i class="icon-angle-right"></i>
+                </a>
+            </nav><!-- End .pager-nav -->
+        </div><!-- End .container -->
+    </nav><!-- End .breadcrumb-nav -->
+
+    <div class="page-content">
+        <div class="container">
+            <div class="product-details-top mb-2">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="product-gallery product-gallery-vertical">
+                            <div class="row">
+                                <figure class="product-main-image">
+                                    <img src="{{p.image.url}}" alt="product image">
+                                </figure><!-- End .product-main-image -->
+                                {% for p in p_images %}
+                                <figure class="">
+                                    <img src="{{ p.images.url}}" alt="product image">
+                                </figure>
+                                {% endfor %}
+
+                                <div id="product-zoom-gallery" class="product-image-gallery">
+                                    <div><img src="{{ p.image.url }}" alt="product image"/></div>
+                                    {% for p in p_image %}
+                                    <div><img src="{{ p.images.url }}" alt="product image"/></div>
+                                    {% endfor %}
+                                </div><!-- End .product-image-gallery -->
+                            </div><!-- End .row -->
+                        </div><!-- End .product-gallery -->
+                    </div><!-- End .col-md-6 -->
+
+                    <div class="col-md-6">
+                        <div class="product-details product-details-centered">
+                            <h1 class="product-title">{{p.title}}</h1><!-- End .product-title -->
+
+                            <div class="ratings-container">
+                                <div class="ratings">
+                                    <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
+                                </div><!-- End .ratings -->
+                                <a class="ratings-text" href="#product-review-link" id="review-link">( 2 Reviews )</a>
+                            </div><!-- End .rating-container -->
+
+                            <div class="product-price">
+                                <span>Now $</span><span class="new-price" id="current-new-price-{{ p.id }}">{{p.price}}</span>
+                                <span class="old-price">Was ${{p.old_price}}</span>
+                            </div><!-- End .product-price -->
+
+                            <div class="product-content">
+                                <p>{{p.description|truncatechars:150|safe}}</p>
+                            </div><!-- End .product-content -->
+
+                            <div class="details-filter-row details-row-size">
+                                <label>Color:</label>
+
+                                <div class="product-nav product-nav-dots">
+                                    <a href="#" class="active" style="background: #cc9966;"><span class="sr-only">Color name</span></a>
+                                    <a href="#" style="background: #333333;"><span class="sr-only">Color name</span></a>
+                                </div><!-- End .product-nav -->
+                            </div><!-- End .details-filter-row -->
+
+                            <div class="details-filter-row details-row-size">
+                                <label for="size">Size:</label>
+                                <div class="select-custom">
+                                    <select name="size" id="size" class="form-control">
+                                        <option value="#" selected="selected">One Size</option>
+                                        <option value="s">Small</option>
+                                        <option value="m">Medium</option>
+                                        <option value="l">Large</option>
+                                        <option value="xl">Extra Large</option>
+                                    </select>
+                                </div><!-- End .select-custom -->
+
+                            </div><!-- End .details-filter-row -->
+
+                            <div class="product-details-action">
+                                <div class="details-action-col">
+                                    <div class="product-details-quantity">
+                                        <input type="number" id="product-quantity" class="w-25 product-quantity-{{ p.id }}" value="1" min="1" max="10" step="1" data-decimals="0" required>
+                                    </div><!-- End .product-details-quantity -->
+                                    <input type="hidden" name="" id="" value="{{ p.id }}" class="product-id">
+                                    <input type="hidden" name="" id="" value="{{ p.title }}" class="the-product-title">
+                                    <hr>
+                                    <div class="btn-product">
+                                        {% comment %} <input type="hidden" value="1" id="product-quantity" class="product-quantity-{{ p.id }}"> {% endcomment %}
+                                        <input type="hidden" value="{{ p.pid }}" class="product-pid-{{ p.id }}">
+                                        <input type="hidden" value="{{ p.image.url }}" class="product-image-{{ p.id }}">
+                                        <input type="hidden" value="{{ p.id }}" class="product-id-{{ p.id }}">
+                                        <input type="hidden" value="{{ p.title }}" class="product-title-{{ p.id }}">
+
+                                        <button class="btn-product btn-cart" data-index="{{ p.id }}" id="add-to-cart-btn" style="border-radius: 5px;"><span>add to cart</span></button>
+                                    </div>
+                                    {% comment %} <button type="submit" id="add-to-cart-btn" class="btn-product btn-cart"><span>add to cart</span></button> {% endcomment %}
+                                </div><!-- End .details-action-col -->
+
+                                <div class="details-action-wrapper">
+                                    <a href="#" class="btn-product btn-compare"><span>{{p.vendor.authentic_rating}}% Authentic</span></a>
+                                    <a href="#" class="btn-product btn-compare" ><span>{{p.vendor.days_return}} Days Return</span></a>
+                                    <a href="#" class="btn-product btn-compare" ><span>{{p.vendor.warranty_period}} Months Warranty</span></a>
+                                </div><!-- End .details-action-wrapper -->
+                            </div><!-- End .product-details-action -->
+
+                            <div class="product-details-footer">
+                                <div class="col">
+                                    <ul>
+                                        <li class="row" title="SKU"><strong>SKU: </strong> <span>{{p.sku}}</span></li>
+                                        <li class="row" title="Product type"><strong>Type: </strong> <span>{{p.type}}</span></li>
+                                    </ul>
+                                </div>
+                                <div class="col-5">
+                                    <ul>
+                                        <li class="row" title="Tags"><strong>Tags:</strong><span>{% for tag in p.tags.all %}<a href="{% url 'core:tags' tag.slug %}" rel="tag">#{{tag.name}}</a>,{% endfor %} </span></li>
+                                        <li class="row" title="Amount in Stock"><strong>Stock: </strong> <span>{{p.stock_count}}</span></li>
+                                    </ul>
+                                </div>
+                                <div class="social-icons social-icons-sm">
+                                    <span class="social-label">Share:</span>
+                                    <a href="#" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
+                                    <a href="#" class="social-icon" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
+                                    <a href="#" class="social-icon" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
+                                    <a href="#" class="social-icon" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
+                                </div>
+                            </div><!-- End .product-details-footer -->
+                        </div><!-- End .product-details -->
+                    </div><!-- End .col-md-6 -->
+                </div><!-- End .row -->
+            </div><!-- End .product-details-top -->
+
+            <div class="product-details-tab">
+                <ul class="nav nav-pills justify-content-center" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="product-desc-link" data-toggle="tab" href="#product-desc-tab" role="tab" aria-controls="product-desc-tab" aria-selected="true">Description</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="product-info-link" data-toggle="tab" href="#product-info-tab" role="tab" aria-controls="product-info-tab" aria-selected="false">Additional information</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="product-shipping-link" data-toggle="tab" href="#product-shipping-tab" role="tab" aria-controls="product-shipping-tab" aria-selected="false">Vendor</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="product-review-link" data-toggle="tab" href="#product-review-tab" role="tab" aria-controls="product-review-tab" aria-selected="false">Reviews ({{reviews.count}})</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="product-desc-tab" role="tabpanel" aria-labelledby="product-desc-link">
+                        <div class="product-desc-content">
+                            <h3>Product Information</h3>
+                            <p>{{p.description|safe}} </p>
+                            {% comment %} <ul>
+                                <li>Nunc nec porttitor turpis. In eu risus enim. In vitae mollis elit. </li>
+                                <li>Vivamus finibus vel mauris ut vehicula.</li>
+                                <li>Nullam a magna porttitor, dictum risus nec, faucibus sapien.</li>
+                            </ul>
+
+                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna viverra non, semper suscipit, posuere a, pede. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis. Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. </p> {% endcomment %}
+                        </div><!-- End .product-desc-content -->
+                    </div><!-- .End .tab-pane -->
+                    <div class="tab-pane fade" id="product-info-tab" role="tabpanel" aria-labelledby="product-info-link">
+                        <div class="product-desc-content">
+                            <h3>Information</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna viverra non, semper suscipit, posuere a, pede. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. </p>
+
+                            <h3>Fabric & care</h3>
+                            <ul>
+                                <li>Faux suede fabric</li>
+                                <li>Gold tone metal hoop handles.</li>
+                                <li>RI branding</li>
+                                <li>Snake print trim interior </li>
+                                <li>Adjustable cross body strap</li>
+                                <li> Height: 31cm; Width: 32cm; Depth: 12cm; Handle Drop: 61cm</li>
+                            </ul>
+
+                            <h3>Size</h3>
+                            <p>one size</p>
+                        </div><!-- End .product-desc-content -->
+                    </div><!-- .End .tab-pane -->
+                    <div class="tab-pane fade" id="product-shipping-tab" role="tabpanel" aria-labelledby="product-shipping-link">
+                        <div class="product-desc-content">
+                            <h3>Vendor Details</h3>
+                            <div class="page-header text-black" style="border-radius: 25px; margin: 0 auto; width: 95%; height: 450px; background-image: url({% static 'assets/images/banners/banner-1.jpg' %})" >
+                                <div class="row">
+                                    <div class="vendor-logo mr-6">
+                                        <img href="#" src="{{p.vendor.image.url}}" style="border-radius: 15px; margin-left: 15px; width: 100px; height: 70px;" alt="" />
+                                    </div>
+                                    <div>
+                                        <h3 class="page-title text-black"><strong>{{p.vendor.title}}</strong></h3>
+                                        <span class="">Since {{p.vendor.date|date:"Y"}}</span>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="vendor-des mr-2">
+                                            <p class="font-sm text-black">{{p.vendor.description}}</p>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-10 text-darkwhite">
+                                        <div class="vendor-info mb-2 ">
+                                            <ul>
+                                                <li><strong>Address: </strong><br><span>{{p.vendor.address}}</span></li>
+                                                <li><strong>Call Us: </strong><br><span>{{p.vendor.contact}}</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="col">
+                                            <p class="text-brand font-xs">Rating</p>
+                                            <h4 class="mb-0">92%</h4>
+                                            <p class="text-brand font-xs">Chat Response</p>
+                                            <h4 class="mb-0">{{p.vendor.shipping_on_time}}%</h4>
+                                            <p class="text-brand font-xs">Ship on time</p>
+                                            <h4 class="mb-0">{{p.vendor.shipping_on_time}}%</h4>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+
+                            </div><!-- End .page-header -->
+                            {% comment %} <p>We deliver to over 100 countries around the world. For full details of the delivery options we offer, please view our <a href="#">Delivery information</a><br>
+                            We hope you’ll love every purchase, but if you ever need to return an item you can do so within a month of receipt. For full details of how to make a return, please view our <a href="#">Returns information</a></p> {% endcomment %}
+                        </div><!-- End .product-desc-content -->
+                    </div><!-- .End .tab-pane -->
+                    <div class="tab-pane fade" id="product-review-tab" role="tabpanel" aria-labelledby="product-review-link">
+                        <div class="reviews-list">
+
+                            <h3>Reviews ({{reviews.count}})</h3>
+                            {% for r in reviews %}
+                            <div class="col-auto review">
+                                <div class="row no-gutters">
+                                    <div class="col-auto">
+                                        <img src="https://static.vecteezy.com/system/resources/previews/036/280/651/non_2x/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-illustration-vector.jpg">
+                                        <h4><a href="#">{{r.user.username|title}}</a></h4>
+                                        <div class="ratings-container">
+                                            <div>
+                                                {% for s in r.rating|ljust:r.rating %}
+                                                <i class="fas fa-star text-warning"></i>
+                                                {% endfor %}
+                                            </div>
+                                        </div><!-- End .rating-container -->
+                                        <span class="review-date">{{r.date|date:"d M, Y"}}</span>
+                                    </div><!-- End .col -->
+                                    <div class="col">
+                                        <div class="review-content">
+                                            <p>{{r.review}}</p>
+                                        </div><!-- End .review-content -->
+
+                                        <div class="review-action">
+                                            <a href="#"><i class="icon-thumbs-up"></i>Helpful (2)</a>
+                                            <a href="#"><i class="icon-thumbs-down"></i>Unhelpful (0)</a>
+                                        </div><!-- End .review-action -->
+                                    </div><!-- End .col-auto -->
+                                </div><!-- End .row -->
+                            </div><!-- End .review -->
+                            {% endfor %}
+
+                            {% if request.user.is_authenticated %}
+                            {% if make_review == True %}
+                                <div class="">
+                                    <h4 class="add-review">Add a review</h4>
+                                    <strong class="text-success" id="review-res"></strong>
+                                    <div class="d-flex mb-30">
+                                        <div class="ratings">
+                                            <div class="ratings-val" style="width: 0%;"></div>
+                                            <div class="row">
+                                                <div class="col-lg-8 col-md-12">
+                                                    <form method="POST" class="form contact comment_form hide-comment-form" action="{% url 'core:ajax_add_review' p.id %}" id="commentForm" name="commentForm">
+                                                        {% csrf_token %}
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="form-group">
+                                                                    {{review_form.review}}
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <div class="form-group">
+                                                                    {{review_form.rating}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="">
+                                                            <button type="submit" class="py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-black">Submit Review</button>
+                                                        </div>
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h6></h6>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% endif %}
+                            <div class="">
+                                <h4>Overall customers reviews</h4>
+                                <div class="d-flex mb-30">
+                                    <h6>{{average_rating.rating|floatformat:1}} out of 5.0</h6>
+                                </div>
+                            </div>
+                        </div><!-- End .reviews -->
+
+                    </div><!-- .End .tab-pane -->
+                </div><!-- End .tab-content -->
+            </div><!-- End .product-details-tab -->
+            {% if products %}
+            <h2 class="title text-center mb-4">Related products</h2><!-- End .title text-center -->
+            {% else %}
+            <h2 class="title text-center mb-4">No related products</h2>
+            {% endif %}
+
+            <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl"
+                data-owl-options='{
+                    "nav": false,
+                    "dots": true,
+                    "margin": 20,
+                    "loop": false,
+                    "responsive": {
+                        "0": {
+                            "items":1
+                        },
+                        "480": {
+                            "items":2
+                        },
+                        "768": {
+                            "items":3
+                        },
+                        "992": {
+                            "items":4
+                        },
+                        "1200": {
+                            "items":4,
+                            "nav": true,
+                            "dots": false
+                        }
+                    }
+                }'>
+                {% for p in products %}
+                <div class="product product-7 text-center">
+                    <figure class="product-media">
+                        <span class="product-label label-new">New</span>
+                        <span class="product-label label-new">-{{ p.get_percentage|floatformat:0 }}% Off</span>
+                        <a href="{% url 'core:product-detail' p.pid %}">
+                            <img src="{{ p.image.url }}" alt="Product image" class="product-image">
+                            <img src="{{ p.image2.url }}" alt="Product image" class="product-image-hover">
+                        </a>
+
+                        <div class="product-action-vertical">
+                            <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>Add to wishlist</span></a>
+                            <a href="popup/quickView.html" class="btn-product-icon btn-quickview btn-expandable" title="Quick view"><span>Quick view</span></a>
+                            <a href="#" class="btn-product-icon btn-compare btn-expandable" title="Compare"><span>Compare</span></a>
+                        </div><!-- End .product-action-vertical -->
+
+                        <div class="product-action cart">
+                            <input type="hidden" value="1" id="product-quantity" class="product-quantity-{{ p.id }}">
+                            <input type="hidden" value="{{ p.pid }}" class="product-pid-{{ p.id }}">
+                            <input type="hidden" value="{{ p.image.url }}" class="product-image-{{ p.id }}">
+                            <input type="hidden" value="{{ p.id }}" class="product-id-{{ p.id }}">
+                            <input type="hidden" value="{{ p.title }}" class="product-title-{{ p.id }}">
+
+                            <button class="btn-product btn-cart product-quantity-{{ p.id }}" data-index="{{ p.id }}" id="add-to-cart-btn" style="border-radius: 5px;"><span>add to cart</span></button>
+                        </div><!-- End .product-action -->
+                    </figure><!-- End .product-media -->
+
+                    <div class="product-body">
+                        <div class="product-cat">
+                            <a href="#">{{ p.category }}</a>
+                        </div><!-- End .product-cat -->
+                        <h3 class="product-title"><a href="product.html">{{ p.title|truncatechars:25 }}</a></h3><!-- End .product-title -->
+                        <div class="products-price">
+                            <span class="">$<span id="current-new-price">{{p.price}}</span></span>
+                            <span class="old-price">Was ${{p.old_price}}</span>
+                        </div><!-- End .product-price -->
+                        <div class="ratings-container">
+                            <div class="ratings">
+                                <div class="ratings-val" style="width: 20%;"></div><!-- End .ratings-val -->
+                            </div><!-- End .ratings -->
+                            <span class="ratings-text">( 2 Reviews )</span>
+                        </div><!-- End .rating-container -->
+
+                        <div class="product-nav product-nav-dots">
+                            <a href="#" class="active" style="background: #cc9966;"><span class="sr-only">Color name</span></a>
+                            <a href="#" style="background: #333333;"><span class="sr-only">Color name</span></a>
+                            <a href="#" style="background: #806b3e;"><span class="sr-only">Color name</span></a>
+                        </div><!-- End .product-nav -->
+                    </div><!-- End .product-body -->
+                </div><!-- End .product -->
+                {% endfor %}
+
+
+            </div><!-- End .owl-carousel -->
+        </div><!-- End .container -->
+    </div><!-- End .page-content -->
+</main><!-- End .main -->
+
+{% endblock content %}
+
+
+
+
+
+

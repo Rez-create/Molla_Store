@@ -1,0 +1,46 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+{% block content %}
+<script src="https://cdn.tailwindcss.com"></script>
+
+<div class="w-1/2 my-6 mx-auto p-6 bg-gray-100 rounded-xl" style="background-image: url({% static 'assets/images/page-header-bg.jpg' %})>
+    <h1 class="mb-6 text-3xl"><strong>Login</strong></h1>
+    <p class="text-lead lead">Don't have an account? <a style="text-decoration: underline;" href="{% url 'userauths:sign-up' %}">Create here</a></p><br>
+    {% if form.errors or form.non_field_errors %}
+            <div class="mb-3 p-6 bg-red-100 rounded-xl">
+                {% for field in form %}
+                    {{ field.errors }}
+                {% endfor %}
+
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+    <form method="POST" action=".">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label class="inline-block mb-2">Email</label><br>
+            <input type="email" name="email" placeholder="Your email address" class="w-full py-4 px-6 rounded-xl" required id="id_email">
+        </div>
+
+        <div class="mb-3">
+            <label class="inline-block mb-2">Password</label><br>
+            <input required type="password" name="password" placeholder="Your password" class="w-full py-4 px-6 rounded-xl" required id="id_password">
+        </div>
+        <div class="login_footer form-group mb-50">
+            <div class="check-form">
+                <div class="custome-checkbox">
+                    <input class="form-check-input" type="checkbox" name="checkbox" id="check1">
+                    <label class="form-check-label" for="check1"><span>Remember me</span></label>
+                </div>
+            </div>
+            <a class="text-muted" href="#">Forgot password?</a>
+        </div>
+
+
+        <button type="submit" class="py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white">Sign In</button>
+    </form>
+</div>
+{% endblock %}

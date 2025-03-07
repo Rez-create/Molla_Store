@@ -1,0 +1,142 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<main class="main">
+    <div class="page-header text-center" style="background-image: url({% static 'assets/images/page-header-bg.jpg' %})">
+        <div class="container">
+            <h1 class="page-title">#{{tag.name}}<span>Shop</span></h1>
+        </div><!-- End .container -->
+    </div><!-- End .page-header -->
+    <nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{tag.name}}</li>
+            </ol>
+        </div><!-- End .container -->
+    </nav><!-- End .breadcrumb-nav -->
+
+    <div class="page-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="toolbox">
+                        <div class="toolbox-left">
+                            <div class="toolbox-info">
+                                <p>Showing <strong class="text-brand">{{products.count}}</strong> Product{{products.count|pluralize:"s"}}</p>
+                            </div><!-- End .toolbox-info -->
+                        </div><!-- End .toolbox-left -->
+
+                        <div class="toolbox-right">
+                            <div class="toolbox-sort">
+                                <label for="sortby">Sort by:</label>
+                                <div class="select-custom">
+                                    <select name="sortby" id="sortby" class="form-control">
+                                        <option value="popularity" selected="selected">Most Popular</option>
+                                        <option value="rating">Most Rated</option>
+                                        <option value="date">Date</option>
+                                    </select>
+                                </div>
+                            </div><!-- End .toolbox-sort -->
+                            <div class="toolbox-layout">
+                                <a href="category-list.html" class="btn-layout">
+                                    <svg width="16" height="10">
+                                        <rect x="0" y="0" width="4" height="4" />
+                                        <rect x="6" y="0" width="10" height="4" />
+                                        <rect x="0" y="6" width="4" height="4" />
+                                        <rect x="6" y="6" width="10" height="4" />
+                                    </svg>
+                                </a>
+
+                                <a href="category-2cols.html" class="btn-layout">
+                                    <svg width="10" height="10">
+                                        <rect x="0" y="0" width="4" height="4" />
+                                        <rect x="6" y="0" width="4" height="4" />
+                                        <rect x="0" y="6" width="4" height="4" />
+                                        <rect x="6" y="6" width="4" height="4" />
+                                    </svg>
+                                </a>
+
+                                <a href="category.html" class="btn-layout active">
+                                    <svg width="16" height="10">
+                                        <rect x="0" y="0" width="4" height="4" />
+                                        <rect x="6" y="0" width="4" height="4" />
+                                        <rect x="12" y="0" width="4" height="4" />
+                                        <rect x="0" y="6" width="4" height="4" />
+                                        <rect x="6" y="6" width="4" height="4" />
+                                        <rect x="12" y="6" width="4" height="4" />
+                                    </svg>
+                                </a>
+
+                                <a href="category-4cols.html" class="btn-layout">
+                                    <svg width="22" height="10">
+                                        <rect x="0" y="0" width="4" height="4" />
+                                        <rect x="6" y="0" width="4" height="4" />
+                                        <rect x="12" y="0" width="4" height="4" />
+                                        <rect x="18" y="0" width="4" height="4" />
+                                        <rect x="0" y="6" width="4" height="4" />
+                                        <rect x="6" y="6" width="4" height="4" />
+                                        <rect x="12" y="6" width="4" height="4" />
+                                        <rect x="18" y="6" width="4" height="4" />
+                                    </svg>
+                                </a>
+                            </div><!-- End .toolbox-layout -->
+                        </div><!-- End .toolbox-right -->
+                    </div><!-- End .toolbox -->
+
+                    <div class="products mb-3">
+                        <div class="row justify-content-center">
+                            {% for p in products %}
+                            <div class="col-6 col-md-4 col-lg-3">
+                                <div class="product product-2 text-center">
+                                    <figure class="product-media">
+                                        <span class="product-label label-sale">-{{ p.get_percentage|floatformat:0 }}%</span>
+                                        <a href="{% url 'core:product-detail' p.pid %}">
+                                            <img src="{{ p.image.url }}" alt="Product image" class="product-image">
+                                            <img src="{{ p.image2.url }}" alt="Product image" class="product-image-hover">
+                                        </a>
+                                        <div class="product-action-vertical">
+                                            <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                                        </div><!-- End .product-action-vertical -->
+
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+
+                                    </figure><!-- End .product-media -->
+
+                                    <div class="product-body">
+                                        <div class="product-cat">
+                                            <a href="#">{{ p.category.title }}</a>
+                                        </div><!-- End .product-cat -->
+                                        <h3 class="product-title"><a href="{% url 'core:product-detail' p.pid %}">{{ p.title }}</a></h3><!-- End .product-title -->
+                                        <div class="product-vendor">
+                                            <span class="font-small text-muted">By <a href="vendor.html">{{ p.vendor.title }}</a></span>
+                                        </div><!-- End .product-vendor -->
+                                        <div class="product-price">
+                                            <span class="new-price">Now ${{ p.price }}</span>
+                                            <span class="old-price">Was ${{ p.old_price }}</span>
+                                        </div><!-- End .product-price -->
+                                    </div><!-- End .product-body -->
+                                </div><!-- End .product -->
+
+                            </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+                            {% endfor %}
+
+                        </div><!-- End .row -->
+                    </div><!-- End .products -->
+
+                </div><!-- End .col-lg-9 -->
+            </div><!-- End .row -->
+        </div><!-- End .container -->
+    </div><!-- End .page-content -->
+</main><!-- End .main -->
+
+
+
+
+{% endblock content %}

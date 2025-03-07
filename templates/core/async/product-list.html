@@ -1,0 +1,36 @@
+{% for p in products %}
+<div class="col-6 col-md-4 col-lg-3">
+    <div class="product product-2 text-center">
+        <figure class="product-media">
+            <span class="product-label label-sale">-{{ p.get_percentage|floatformat:0 }}%</span>
+            <a href="{% url 'core:product-detail' p.pid %}">
+                <img src="{{ p.image.url }}" alt="Product image" class="product-image">
+                <img src="{{ p.image2.url }}" alt="Product image" class="product-image-hover">
+            </a>
+            <div class="product-action-vertical">
+                <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+            </div><!-- End .product-action-vertical -->
+
+            <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+            </div><!-- End .product-action -->
+
+        </figure><!-- End .product-media -->
+
+        <div class="product-body">
+            <div class="product-cat">
+                <a href="#">{{ p.category.title }}</a>
+            </div><!-- End .product-cat -->
+            <h3 class="product-title"><a href="{% url 'core:product-detail' p.pid %}">{{ p.title }}</a></h3><!-- End .product-title -->
+            <div class="product-vendor">
+                <span class="font-small text-muted">By <a href="#">{{ p.vendor.title }}</a></span>
+            </div><!-- End .product-vendor -->
+            <div class="product-price">
+                <span class="new-price">Now ${{ p.price }}</span>
+                <span class="old-price">Was ${{ p.old_price }}</span>
+            </div><!-- End .product-price -->
+        </div><!-- End .product-body -->
+    </div><!-- End .product -->
+
+</div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+{% endfor %}
